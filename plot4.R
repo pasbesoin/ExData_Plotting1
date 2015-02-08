@@ -1,0 +1,73 @@
+# Small script to create the fourth plot of Course Project 1 of the Exploratory
+# Data Analysis course.
+#
+# When run, this creates a plot4.png file that matches what we see in
+# https://github.com/rdpeng/ExData_Plotting1#plot-4
+
+
+# You will need to download
+# https://d396qusza40orc.cloudfront.net/exdata%2Fdata%2Fhousehold_power_consumption.zip
+# and unzip and place this file in the parent directory:
+HOUSEHOLD_POWER_DATA <- "../household_power_consumption.txt"
+
+OUTPUT_FILENAME <- "plot4.png"
+
+# In this dataset, missing data is marked with a question mark. Failure to use
+# na.strings causes our column of interest to be considered a "factor"
+# rather than a numeric.
+consumption <- read.table(HOUSEHOLD_POWER_DATA,
+        sep=';',
+        header=T,
+        na.strings=c('?')
+)
+
+# We just want the first two days of February 2007. Just doing this by string
+# rather than a Date type:
+days_to_examine = consumption$Date == "1/2/2007" | consumption$Date == "2/2/2007"
+part_consumption = consumption[days_to_examine,]
+
+# create a 480x480 PNG:
+png(OUTPUT_FILENAME, 480, 480)
+
+# Create a POSIXlt vector from the Date and Time columns: 
+time <- strptime(paste(part_consumption$Date, part_consumption$Time),
+        "%d/%m/%Y %H:%M:%S"
+)
+
+# Create a 2x2 grid of graphs
+par(mfcol=c(2, 2))
+
+# The first one is just our plot2.png, Global Active Power over time:
+plot(time, part_consumption$Global_active_power, type='l',
+        xlab="", ylab="Global Active Power"
+)
+
+# The second (bottom left - going down the columns first, because we used
+# "mfcol"), is our plot3.png, the three submeters:
+plot(time, part_consumption$Sub_metering_1, type='l',
+        xlab="", ylab="Energy sub metering"
+)
+
+lines(time, part_consumption$Sub_metering_2, col="red")
+lines(time, part_consumption$Sub_metering_3, col="blue")
+
+# Now, we have to create the legend, no room for the box this time!
+legend("topright",
+        c("Sub_metering_1", "Sub_metering_2", "Sub_metering_3"),
+        lty=c(1, 1, 1),                   # line type
+        col=c("black", "red", "blue"),
+        bty="n"
+)
+
+# The third graph (top right) is just voltage over time:
+plot(time, part_consumption$Voltage, type='l',
+        xlab="datetime", ylab="Voltage"
+)
+
+# The fourth graph (top left) is Global Reactive Power over time:
+plot(time, part_consumption$Global_reactive_power, type='l',
+        xlab="datetime", ylab="Global_reactive_power"
+)
+
+# This saves the PNG:
+dev.off()
