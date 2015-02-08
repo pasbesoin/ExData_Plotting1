@@ -23,8 +23,8 @@ consumption <- read.table(HOUSEHOLD_POWER_DATA,
 
 # We just want the first two days of February 2007. Just doing this by string
 # rather than a Date type:
-days_to_examine = consumption$Date == "1/2/2007" | consumption$Date == "2/2/2007"
-part_consumption = consumption[days_to_examine,]
+days_to_examine <- consumption$Date == "1/2/2007" | consumption$Date == "2/2/2007"
+part_consumption <- consumption[days_to_examine,]
 
 # create a 480x480 PNG:
 png(OUTPUT_FILENAME, 480, 480)
