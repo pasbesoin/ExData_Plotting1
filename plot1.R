@@ -11,7 +11,7 @@
 HOUSEHOLD_POWER_DATA <- "../household_power_consumption.txt"
 
 # In this dataset, missing data is marked with a question mark. Failure to use
-# na.strings causes that our column of interest to be consider a "factor"
+# na.strings causes our column of interest to be considered a "factor"
 # rather than a numeric.
 consumption <- read.table(HOUSEHOLD_POWER_DATA,
         sep=';',
