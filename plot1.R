@@ -25,7 +25,7 @@ days_to_examine = consumption$Date == "1/2/2007" | consumption$Date == "2/2/2007
 part_consumption = consumption[days_to_examine,]
 
 # create a 480x480 PNG:
-png("plot1.png", 504, 504)
+png("plot1.png", 480, 480)
 
 # Create a histogram with the appropriate labels:
 hist(part_consumption$Global_active_power,
